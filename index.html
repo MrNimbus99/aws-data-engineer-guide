@@ -37,8 +37,14 @@ a:hover { color: #06b6d4; border-bottom-color: #06b6d4; }
 .q-options { list-style: none; padding: 0; margin-bottom: 16px; }
 .q-options li { padding: 10px 14px; margin-bottom: 6px; border-radius: 8px; background: rgba(30, 40, 65, 0.6); border: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; color: #9ba3b8; }
 .q-options li.correct { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); color: #6ee7b7; }
-.q-explain { background: rgba(99, 102, 241, 0.08); border-left: 3px solid #6366f1; padding: 16px 20px; border-radius: 0 10px 10px 0; margin-top: 12px; }
-.q-explain p { font-size: 0.92rem; color: #a5b4fc; white-space: pre-line; }
+.q-explain { margin-top: 12px; }
+.q-explain-item { padding: 14px 18px; border-radius: 10px; margin-bottom: 10px; font-size: 0.92rem; line-height: 1.75; }
+.q-explain-item.correct-exp { background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; }
+.q-explain-item.correct-exp .exp-label { color: #6ee7b7; }
+.q-explain-item.wrong-exp { background: rgba(239, 68, 68, 0.06); border-left: 3px solid rgba(239, 68, 68, 0.4); }
+.q-explain-item.wrong-exp .exp-label { color: #fca5a5; }
+.exp-label { font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; display: block; }
+.exp-text { color: #b4bcd0; }
 details { cursor: pointer; }
 details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding: 8px 0; }
 .footer { margin-top: 60px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; color: #6b7280; font-size: 0.9rem; }
@@ -98,10 +104,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why B is correct: AWS DMS is purpose-built for migrating and continuously replicating data from on-premises databases (including Oracle) to AWS targets such as Amazon S3, Amazon Redshift, or Amazon RDS. It supports both full-load and change data capture (CDC) for ongoing replication.
-- Why A is wrong: S3 Transfer Acceleration speeds up uploads to S3 over long distances using CloudFront edge locations, but it cannot extract or replicate data from an Oracle database.
-- Why C is wrong: Kinesis Data Streams is designed for real-time streaming ingestion from custom producers (e.g., application logs, IoT sensors), not for connecting to and replicating relational database workloads.
-- Why D is wrong: Amazon AppFlow is a managed integration service for SaaS applications (e.g., Salesforce, ServiceNow, Slack). It does not support on-premises database sources.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why B is correct</span><span class="exp-text">AWS DMS is purpose-built for migrating and continuously replicating data from on-premises databases (including Oracle) to AWS targets such as Amazon S3, Amazon Redshift, or Amazon RDS. It supports both full-load and change data capture (CDC) for ongoing replication.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">S3 Transfer Acceleration speeds up uploads to S3 over long distances using CloudFront edge locations, but it cannot extract or replicate data from an Oracle database.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Kinesis Data Streams is designed for real-time streaming ingestion from custom producers (e.g., application logs, IoT sensors), not for connecting to and replicating relational database workloads.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Amazon AppFlow is a managed integration service for SaaS applications (e.g., Salesforce, ServiceNow, Slack). It does not support on-premises database sources.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -115,10 +121,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Apache Parquet is a columnar storage format that supports predicate pushdown and column pruning. When Athena queries Parquet data, it reads only the columns and row groups needed, dramatically reducing the amount of data scanned. Since Athena charges per TB scanned, this directly lowers query cost and improves performance. AWS Glue natively supports reading CSV and writing Parquet via its DynamicFrame or Spark DataFrame APIs.
-- Why A is wrong: While converting to Parquet is correct, storing it uncompressed and as a single large file negates key performance benefits. A single large file prevents parallelized reads by Athena (which performs best with many appropriately sized files), and no compression means more bytes scanned per query — increasing both cost and latency.
-- Why B is wrong: While Avro is a valid format for serialization (especially for schema evolution in streaming), it is row-based. Athena queries on row-based formats scan more data than necessary for analytical queries that typically access a subset of columns.
-- Why D is wrong: Plain text (uncompressed CSV) is the worst option for Athena. It offers no columnar optimization, no compression, and no predicate pushdown, resulting in maximum data scanned and highest query cost.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Apache Parquet is a columnar storage format that supports predicate pushdown and column pruning. When Athena queries Parquet data, it reads only the columns and row groups needed, dramatically reducing the amount of data scanned. Since Athena charges per TB scanned, this directly lowers query cost and improves performance. AWS Glue natively supports reading CSV and writing Parquet via its DynamicFrame or Spark DataFrame APIs.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">While converting to Parquet is correct, storing it uncompressed and as a single large file negates key performance benefits. A single large file prevents parallelized reads by Athena (which performs best with many appropriately sized files), and no compression means more bytes scanned per query — increasing both cost and latency.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">While Avro is a valid format for serialization (especially for schema evolution in streaming), it is row-based. Athena queries on row-based formats scan more data than necessary for analytical queries that typically access a subset of columns.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Plain text (uncompressed CSV) is the worst option for Athena. It offers no columnar optimization, no compression, and no predicate pushdown, resulting in maximum data scanned and highest query cost.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -132,10 +138,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: AWS Step Functions is purpose-built for orchestrating multi-step workflows. It provides a visual state machine that coordinates ETL steps (extract, transform, load) with built-in error handling, retries, branching logic, and timeout management. This is the recommended AWS approach for orchestrating ETL pipelines.
-- Why A is wrong: A single Lambda function calling steps sequentially creates a monolithic design with no visibility into individual step status, no built-in retry logic per step, and risks hitting the 15-minute Lambda timeout for long-running pipelines.
-- Why B is wrong: Chaining steps via S3 trigger files is fragile and hard to monitor. It lacks centralized error handling, has no built-in retry mechanism, and creates tight coupling between steps through file-system conventions rather than explicit workflow definitions.
-- Why C is wrong: CloudWatch alarms are designed for monitoring and alerting on metric thresholds, not for orchestrating sequential workflow steps. This approach would be unreliable for controlling execution order and would lack proper state management.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">AWS Step Functions is purpose-built for orchestrating multi-step workflows. It provides a visual state machine that coordinates ETL steps (extract, transform, load) with built-in error handling, retries, branching logic, and timeout management. This is the recommended AWS approach for orchestrating ETL pipelines.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">A single Lambda function calling steps sequentially creates a monolithic design with no visibility into individual step status, no built-in retry logic per step, and risks hitting the 15-minute Lambda timeout for long-running pipelines.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Chaining steps via S3 trigger files is fragile and hard to monitor. It lacks centralized error handling, has no built-in retry mechanism, and creates tight coupling between steps through file-system conventions rather than explicit workflow definitions.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">CloudWatch alarms are designed for monitoring and alerting on metric thresholds, not for orchestrating sequential workflow steps. This approach would be unreliable for controlling execution order and would lack proper state management.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -151,13 +157,13 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: IaC enables consistent deployments across environments by defining infrastructure in code templates, eliminating environment drift. Version control (e.g., Git) tracks every change with full audit history, supporting rollback and compliance. Automated provisioning replaces manual console clicks, reducing human error.
-- Why A is correct: IaC templates (CloudFormation, CDK) ensure identical resource configurations across accounts.
-- Why B is wrong: IaC does not eliminate the need for testing. Templates should still be validated (e.g., cfn-lint, CDK synth, integration tests) before deployment.
-- Why C is correct: Storing IaC templates in Git provides change history, code review via pull requests, and audit trails.
-- Why D is wrong: IaC does not guarantee zero failures. Deployments can still fail due to quota limits, IAM permission issues, or service outages.
-- Why E is correct: Automated provisioning through IaC pipelines reduces manual configuration errors compared to clicking through the AWS Console.
-- Why F is wrong: IaC does not remove the need for IAM permissions. Resources still require proper IAM roles and policies; IaC simply automates their creation.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">IaC enables consistent deployments across environments by defining infrastructure in code templates, eliminating environment drift. Version control (e.g., Git) tracks every change with full audit history, supporting rollback and compliance. Automated provisioning replaces manual console clicks, reducing human error.</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Why A is correct</span><span class="exp-text">IaC templates (CloudFormation, CDK) ensure identical resource configurations across accounts.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">IaC does not eliminate the need for testing. Templates should still be validated (e.g., cfn-lint, CDK synth, integration tests) before deployment.</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Why C is correct</span><span class="exp-text">Storing IaC templates in Git provides change history, code review via pull requests, and audit trails.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">IaC does not guarantee zero failures. Deployments can still fail due to quota limits, IAM permission issues, or service outages.</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Why E is correct</span><span class="exp-text">Automated provisioning through IaC pipelines reduces manual configuration errors compared to clicking through the AWS Console.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why F is wrong</span><span class="exp-text">IaC does not remove the need for IAM permissions. Resources still require proper IAM roles and policies; IaC simply automates their creation.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -172,10 +178,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: EventBridge is a serverless event bus that can trigger workflows on schedules or events without any infrastructure. Step Functions is a serverless orchestration service that natively supports conditional branching (Choice state), parallel processing (Parallel state), and direct integrations with Glue and Lambda — meeting all stated requirements with zero infrastructure management.
-- Why B is wrong: MWAA is a managed service, not a serverless one. It runs on underlying infrastructure (you choose an environment class/size), and you pay for the environment even when idle. It also adds Airflow complexity that is unnecessary for this use case.
-- Why C is wrong: EC2 with cron jobs requires provisioning, patching, and managing servers, which directly contradicts the serverless requirement.
-- Why E is wrong: AWS Glue workflows can orchestrate Glue jobs, but they lack the conditional branching and parallel processing flexibility of Step Functions. They are also limited to Glue-native jobs rather than general-purpose orchestration across services like Lambda.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">EventBridge is a serverless event bus that can trigger workflows on schedules or events without any infrastructure. Step Functions is a serverless orchestration service that natively supports conditional branching (Choice state), parallel processing (Parallel state), and direct integrations with Glue and Lambda — meeting all stated requirements with zero infrastructure management.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">MWAA is a managed service, not a serverless one. It runs on underlying infrastructure (you choose an environment class/size), and you pay for the environment even when idle. It also adds Airflow complexity that is unnecessary for this use case.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">EC2 with cron jobs requires provisioning, patching, and managing servers, which directly contradicts the serverless requirement.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why E is wrong</span><span class="exp-text">AWS Glue workflows can orchestrate Glue jobs, but they lack the conditional branching and parallel processing flexibility of Step Functions. They are also limited to Glue-native jobs rather than general-purpose orchestration across services like Lambda.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -189,10 +195,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Amazon Redshift with RA3 nodes is purpose-built for large-scale analytics on structured data. RA3 nodes decouple compute from managed storage, enabling independent scaling and cost control. Redshift's columnar storage, massively parallel processing (MPP), and result caching deliver sub-second dashboard query performance at petabyte scale.
-- Why A is wrong: Amazon RDS for MySQL is an OLTP database optimized for transactional workloads with row-based storage. Running complex analytical queries on 10 TB would be extremely slow and costly compared to a purpose-built data warehouse.
-- Why B is wrong: Amazon DynamoDB is a key-value and document database designed for single-digit millisecond lookups by primary key. It does not support complex analytical SQL queries with joins and aggregations across large datasets.
-- Why D is wrong: Amazon Athena queries data directly in S3 using a serverless model, which is cost-effective for infrequent ad-hoc queries. However, for executive dashboards requiring consistent sub-second response times on 10 TB of data, Athena's query latency (typically seconds to minutes) would not meet the performance requirement. Redshift's persistent compute, caching, and MPP architecture provides the required consistent low-latency performance.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Amazon Redshift with RA3 nodes is purpose-built for large-scale analytics on structured data. RA3 nodes decouple compute from managed storage, enabling independent scaling and cost control. Redshift's columnar storage, massively parallel processing (MPP), and result caching deliver sub-second dashboard query performance at petabyte scale.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Amazon RDS for MySQL is an OLTP database optimized for transactional workloads with row-based storage. Running complex analytical queries on 10 TB would be extremely slow and costly compared to a purpose-built data warehouse.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Amazon DynamoDB is a key-value and document database designed for single-digit millisecond lookups by primary key. It does not support complex analytical SQL queries with joins and aggregations across large datasets.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Amazon Athena queries data directly in S3 using a serverless model, which is cost-effective for infrequent ad-hoc queries. However, for executive dashboards requiring consistent sub-second response times on 10 TB of data, Athena's query latency (typically seconds to minutes) would not meet the performance requirement. Redshift's persistent compute, caching, and MPP architecture provides the required consistent low-latency performance.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -206,10 +212,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: An AWS Glue crawler automatically scans data in S3, infers the schema (column names, data types), and creates or updates table definitions in the Glue Data Catalog. This is the purpose-built, low-effort approach for automatic schema discovery and catalog population.
-- Why A is wrong: Manually creating table definitions works but does not scale and requires the engineer to know the exact schema in advance. It defeats the purpose of automatic schema discovery.
-- Why C is wrong: Athena CREATE EXTERNAL TABLE requires the engineer to specify the schema manually. It does not provide automatic schema detection, and manual updates on schema changes add operational burden.
-- Why D is wrong: Writing a custom Lambda function to call CreateTable is feasible but adds unnecessary development and maintenance overhead compared to using a Glue crawler, which provides this functionality natively.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">An AWS Glue crawler automatically scans data in S3, infers the schema (column names, data types), and creates or updates table definitions in the Glue Data Catalog. This is the purpose-built, low-effort approach for automatic schema discovery and catalog population.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Manually creating table definitions works but does not scale and requires the engineer to know the exact schema in advance. It defeats the purpose of automatic schema discovery.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Athena CREATE EXTERNAL TABLE requires the engineer to specify the schema manually. It does not provide automatic schema detection, and manual updates on schema changes add operational burden.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Writing a custom Lambda function to call CreateTable is feasible but adds unnecessary development and maintenance overhead compared to using a Glue crawler, which provides this functionality natively.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -223,11 +229,11 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: The Redshift COPY command is specifically designed for high-performance bulk loading from Amazon S3. Using a manifest file lets you explicitly list the S3 objects to load, and when files are split across multiple prefixes, the COPY command automatically parallelizes the load across Redshift slices. Compressing source files with gzip further reduces I/O time.
-- Why A is wrong: This is the correct answer.
-- Why B is wrong: INSERT INTO statements load rows one at a time (or in small batches) and do not leverage Redshift's massively parallel architecture for bulk loading. This would be orders of magnitude slower than COPY for 500 GB.
-- Why C is wrong: AWS DMS is designed for database-to-database migration and ongoing replication, not for bulk loading flat files from S3. DMS would add unnecessary complexity and does not optimize parallel loading the way COPY does.
-- Why D is wrong: Downloading 500 GB to EC2 first adds an unnecessary data transfer step, incurs EC2 compute and EBS storage costs, and JDBC-based inserts are far slower than the native COPY command.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">The Redshift COPY command is specifically designed for high-performance bulk loading from Amazon S3. Using a manifest file lets you explicitly list the S3 objects to load, and when files are split across multiple prefixes, the COPY command automatically parallelizes the load across Redshift slices. Compressing source files with gzip further reduces I/O time.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">This is the correct answer.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">INSERT INTO statements load rows one at a time (or in small batches) and do not leverage Redshift's massively parallel architecture for bulk loading. This would be orders of magnitude slower than COPY for 500 GB.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">AWS DMS is designed for database-to-database migration and ongoing replication, not for bulk loading flat files from S3. DMS would add unnecessary complexity and does not optimize parallel loading the way COPY does.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Downloading 500 GB to EC2 first adds an unnecessary data transfer step, incurs EC2 compute and EBS storage costs, and JDBC-based inserts are far slower than the native COPY command.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -241,10 +247,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why D is correct: EVEN distribution spreads the large fact table across all slices for balanced parallel processing. ALL distribution replicates the small dimension tables to every compute node, eliminating inter-node data movement during joins. A compound sort key on the order date column enables zone-map pruning, allowing Redshift to skip irrelevant disk blocks for date-range-filtered queries.
-- Why A is wrong: KEY distribution on a surrogate primary key (unique per row) distributes rows essentially randomly across slices, providing no join colocation benefit. AUTO distribution on small dimension tables may eventually choose ALL, but this leaves optimization to chance rather than design.
-- Why B is wrong: ALL distribution on an 800-million-row fact table would replicate the entire table to every node, consuming massive storage and dramatically slowing data loads. ALL is appropriate only for small tables.
-- Why C is wrong: While AUTO distribution and Redshift Advisor can help, they react to observed query patterns over time. For a known star-schema workload at this scale, explicit distribution and sort key design yields superior performance from day one.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why D is correct</span><span class="exp-text">EVEN distribution spreads the large fact table across all slices for balanced parallel processing. ALL distribution replicates the small dimension tables to every compute node, eliminating inter-node data movement during joins. A compound sort key on the order date column enables zone-map pruning, allowing Redshift to skip irrelevant disk blocks for date-range-filtered queries.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">KEY distribution on a surrogate primary key (unique per row) distributes rows essentially randomly across slices, providing no join colocation benefit. AUTO distribution on small dimension tables may eventually choose ALL, but this leaves optimization to chance rather than design.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">ALL distribution on an 800-million-row fact table would replicate the entire table to every node, consuming massive storage and dramatically slowing data loads. ALL is appropriate only for small tables.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">While AUTO distribution and Redshift Advisor can help, they react to observed query patterns over time. For a known star-schema workload at this scale, explicit distribution and sort key design yields superior performance from day one.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -258,10 +264,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct (A): AWS Lake Formation provides centralized governance for data lakes, including fine-grained access control at the database, table, column, and row level. It integrates with the AWS Glue Data Catalog and allows administrators to grant and revoke permissions from a single place, which is ideal when multiple teams need governed access to shared data lake resources.
-- Why B is wrong: Amazon Macie is a data security service that uses machine learning to discover and protect sensitive data. It helps with classification and compliance, but it does not provide access governance or permission management for data lake consumers.
-- Why C is wrong: IAM policies applied directly to each S3 bucket can control access at the bucket or prefix level, but they do not provide column-level or row-level governance, and managing hundreds of bucket policies across teams becomes operationally complex. Lake Formation centralizes this.
-- Why D is wrong: Amazon Redshift row-level security applies only within Redshift, not across an entire data lake that spans S3, Athena, and EMR. Lake Formation provides governance across all these analytics services.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct (A)</span><span class="exp-text">AWS Lake Formation provides centralized governance for data lakes, including fine-grained access control at the database, table, column, and row level. It integrates with the AWS Glue Data Catalog and allows administrators to grant and revoke permissions from a single place, which is ideal when multiple teams need governed access to shared data lake resources.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Amazon Macie is a data security service that uses machine learning to discover and protect sensitive data. It helps with classification and compliance, but it does not provide access governance or permission management for data lake consumers.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">IAM policies applied directly to each S3 bucket can control access at the bucket or prefix level, but they do not provide column-level or row-level governance, and managing hundreds of bucket policies across teams becomes operationally complex. Lake Formation centralizes this.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Amazon Redshift row-level security applies only within Redshift, not across an entire data lake that spans S3, Athena, and EMR. Lake Formation provides governance across all these analytics services.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -275,10 +281,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: AWS Step Functions provides native orchestration of multi-step workflows with built-in Retry and Catch error-handling fields in Amazon States Language (ASL). It integrates directly with AWS Glue, Amazon S3, Amazon Redshift, and Amazon SNS for notifications, making it ideal for this use case.
-- Why A is wrong: Amazon EventBridge is an event bus for routing events, not a workflow orchestrator. It cannot manage sequential step dependencies, retries, or conditional branching the way Step Functions can.
-- Why C is wrong: Chaining Lambda functions through direct invocation creates tight coupling, makes error handling complex and custom-coded, and risks cascading timeouts. Step Functions decouples orchestration from compute.
-- Why D is wrong: Amazon MWAA could orchestrate this pipeline, but using only BashOperator tasks is not the recommended approach — MWAA uses purpose-built AWS operators (e.g., GlueJobOperator). Additionally, MWAA has higher operational overhead than Step Functions for straightforward sequential pipelines with error handling.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">AWS Step Functions provides native orchestration of multi-step workflows with built-in Retry and Catch error-handling fields in Amazon States Language (ASL). It integrates directly with AWS Glue, Amazon S3, Amazon Redshift, and Amazon SNS for notifications, making it ideal for this use case.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Amazon EventBridge is an event bus for routing events, not a workflow orchestrator. It cannot manage sequential step dependencies, retries, or conditional branching the way Step Functions can.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Chaining Lambda functions through direct invocation creates tight coupling, makes error handling complex and custom-coded, and risks cascading timeouts. Step Functions decouples orchestration from compute.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Amazon MWAA could orchestrate this pipeline, but using only BashOperator tasks is not the recommended approach — MWAA uses purpose-built AWS operators (e.g., GlueJobOperator). Additionally, MWAA has higher operational overhead than Step Functions for straightforward sequential pipelines with error handling.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -292,10 +298,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct (D): Amazon QuickSight is purpose-built for interactive business intelligence dashboards. It supports drill-down filtering, visual analytics, and cost-effective reader sessions that scale to hundreds of business users without per-user licensing overhead. QuickSight dashboards can be embedded and shared with self-service capabilities.
-- Why A is wrong: Athena is a SQL query engine for querying data in S3. It does not provide dashboard visualizations, charting, or interactive filtering capabilities for business users.
-- Why B is wrong: DataBrew profile visualizations show data quality statistics (distributions, missing values, outliers) for data preparation purposes. They are not designed for business reporting dashboards with sales trends and regional drill-downs.
-- Why C is wrong: Redshift query editor v2 is a SQL development tool intended for data engineers and analysts writing queries, not a business intelligence dashboarding platform for end users.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct (D)</span><span class="exp-text">Amazon QuickSight is purpose-built for interactive business intelligence dashboards. It supports drill-down filtering, visual analytics, and cost-effective reader sessions that scale to hundreds of business users without per-user licensing overhead. QuickSight dashboards can be embedded and shared with self-service capabilities.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Athena is a SQL query engine for querying data in S3. It does not provide dashboard visualizations, charting, or interactive filtering capabilities for business users.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">DataBrew profile visualizations show data quality statistics (distributions, missing values, outliers) for data preparation purposes. They are not designed for business reporting dashboards with sales trends and regional drill-downs.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Redshift query editor v2 is a SQL development tool intended for data engineers and analysts writing queries, not a business intelligence dashboarding platform for end users.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -311,10 +317,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Three key troubleshooting steps address this scenario: (1) Enabling Glue continuous logging provides executor-level metrics (heap usage, GC time) in CloudWatch, which is essential for diagnosing memory issues. (2) Upgrading from G.1X (16 GB memory) to G.2X (32 GB memory) workers directly addresses memory pressure on each executor. (3) The Spark UI, accessible from Glue job run details, reveals data skew — a common cause of memory pressure when some partitions are disproportionately large.
-- Why B is wrong: Deleting and recreating the Data Catalog table does not address memory or performance issues. It risks losing important metadata configuration such as schema definitions and partition information.
-- Why D is wrong: Disabling job bookmarks removes incremental processing, forcing the job to reprocess ALL historical data on every run. This would make the performance problem significantly worse, not better.
-- Why F is wrong: Amazon Kinesis Data Streams is a real-time streaming ingestion service, not a batch ETL tool. It cannot replace Glue's transformation capabilities and would not resolve the underlying memory issue.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Three key troubleshooting steps address this scenario: (1) Enabling Glue continuous logging provides executor-level metrics (heap usage, GC time) in CloudWatch, which is essential for diagnosing memory issues. (2) Upgrading from G.1X (16 GB memory) to G.2X (32 GB memory) workers directly addresses memory pressure on each executor. (3) The Spark UI, accessible from Glue job run details, reveals data skew — a common cause of memory pressure when some partitions are disproportionately large.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Deleting and recreating the Data Catalog table does not address memory or performance issues. It risks losing important metadata configuration such as schema definitions and partition information.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Disabling job bookmarks removes incremental processing, forcing the job to reprocess ALL historical data on every run. This would make the performance problem significantly worse, not better.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why F is wrong</span><span class="exp-text">Amazon Kinesis Data Streams is a real-time streaming ingestion service, not a batch ETL tool. It cannot replace Glue's transformation capabilities and would not resolve the underlying memory issue.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -328,10 +334,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: AWS Glue Data Quality allows you to embed data quality checks directly within your ETL job using DQDL rules. The Completeness rule type checks that specified columns contain non-null values. When integrated into the Glue ETL job, records that fail quality checks can be automatically routed to a quarantine S3 path while passing records continue downstream. This catches quality issues during processing, not after.
-- Why B is wrong: Running Athena queries after ETL completes is a reactive approach that detects issues post-processing rather than during it. Failed records would already be in the data lake, potentially affecting downstream consumers before the query even runs.
-- Why C is wrong: While Lambda can scan files, this approach adds complexity and doesn't integrate with the ETL pipeline. It would require custom code to handle all validation scenarios that DQDL handles natively, and runs before ETL rather than inline with it.
-- Why D is wrong: CloudWatch monitors metrics and logs but cannot inspect individual data records for null values. It is an observability tool, not a data quality validation tool.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">AWS Glue Data Quality allows you to embed data quality checks directly within your ETL job using DQDL rules. The Completeness rule type checks that specified columns contain non-null values. When integrated into the Glue ETL job, records that fail quality checks can be automatically routed to a quarantine S3 path while passing records continue downstream. This catches quality issues during processing, not after.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Running Athena queries after ETL completes is a reactive approach that detects issues post-processing rather than during it. Failed records would already be in the data lake, potentially affecting downstream consumers before the query even runs.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">While Lambda can scan files, this approach adds complexity and doesn't integrate with the ETL pipeline. It would require custom code to handle all validation scenarios that DQDL handles natively, and runs before ETL rather than inline with it.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">CloudWatch monitors metrics and logs but cannot inspect individual data records for null values. It is an observability tool, not a data quality validation tool.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -345,10 +351,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: AWS Step Functions is the best choice here because it provides native error handling with Catch and Retry fields, allows branching logic with Choice states, and can orchestrate calls to AWS Glue, Lambda, and other services with built-in state management. For a multi-step ETL pipeline where each stage depends on the previous one's success and requires different failure handling, Step Functions' visual workflow and state machine model make it straightforward to implement conditional branching and per-step retry policies.
-- Why A is wrong: Amazon MWAA (Managed Workflows for Apache Airflow) is a powerful orchestration tool, but it is better suited for complex DAG-based scheduling with many interdependent tasks across teams. For a single pipeline with conditional branching and per-step error handling, Step Functions is simpler to set up, requires no cluster management, and has tighter native AWS service integration. MWAA would be over-engineering this use case.
-- Why C is wrong: AWS Glue workflows can chain Glue jobs and crawlers together, but they have limited support for arbitrary branching logic and cannot natively orchestrate non-Glue services like Lambda or SNS notifications within the same workflow. The scenario requires conditional routing and multi-service orchestration beyond what Glue workflows alone provide.
-- Why D is wrong: Amazon EventBridge is an event bus for routing events to targets, not a workflow orchestrator. It cannot maintain state between steps, implement conditional branching based on step outputs, or handle per-step retries. EventBridge could trigger the pipeline but cannot orchestrate the multi-step logic described.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">AWS Step Functions is the best choice here because it provides native error handling with Catch and Retry fields, allows branching logic with Choice states, and can orchestrate calls to AWS Glue, Lambda, and other services with built-in state management. For a multi-step ETL pipeline where each stage depends on the previous one's success and requires different failure handling, Step Functions' visual workflow and state machine model make it straightforward to implement conditional branching and per-step retry policies.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Amazon MWAA (Managed Workflows for Apache Airflow) is a powerful orchestration tool, but it is better suited for complex DAG-based scheduling with many interdependent tasks across teams. For a single pipeline with conditional branching and per-step error handling, Step Functions is simpler to set up, requires no cluster management, and has tighter native AWS service integration. MWAA would be over-engineering this use case.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">AWS Glue workflows can chain Glue jobs and crawlers together, but they have limited support for arbitrary branching logic and cannot natively orchestrate non-Glue services like Lambda or SNS notifications within the same workflow. The scenario requires conditional routing and multi-service orchestration beyond what Glue workflows alone provide.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Amazon EventBridge is an event bus for routing events to targets, not a workflow orchestrator. It cannot maintain state between steps, implement conditional branching based on step outputs, or handle per-step retries. EventBridge could trigger the pipeline but cannot orchestrate the multi-step logic described.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -362,10 +368,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct (B): The team should add an inbound rule to the Redshift cluster's VPC security group that allows TCP port 5439 (Redshift's default port) from the EC2 instance's security group as the source. This follows the principle of least privilege at the network level because security group references allow only traffic originating from resources attached to the specified security group, without needing to hard-code IP addresses.
-- Why A is wrong: Opening port 5439 to 0.0.0.0/0 allows inbound traffic from any IP address on the internet. Even in a private subnet, this is overly permissive and violates least-privilege network access principles.
-- Why C is wrong: A network ACL (NACL) with the subnet CIDR block is broader than necessary because it permits all resources in the entire subnet, not just the ETL application. NACLs are also stateless, requiring separate inbound and outbound rules, making them harder to manage. Security groups are stateful and more granular.
-- Why D is wrong: Opening all ports (0-65535) from the EC2 subnet CIDR is far too permissive. Only port 5439 is needed for Redshift connections. This violates the principle of least privilege by exposing all ports on the cluster.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct (B)</span><span class="exp-text">The team should add an inbound rule to the Redshift cluster's VPC security group that allows TCP port 5439 (Redshift's default port) from the EC2 instance's security group as the source. This follows the principle of least privilege at the network level because security group references allow only traffic originating from resources attached to the specified security group, without needing to hard-code IP addresses.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Opening port 5439 to 0.0.0.0/0 allows inbound traffic from any IP address on the internet. Even in a private subnet, this is overly permissive and violates least-privilege network access principles.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">A network ACL (NACL) with the subnet CIDR block is broader than necessary because it permits all resources in the entire subnet, not just the ETL application. NACLs are also stateless, requiring separate inbound and outbound rules, making them harder to manage. Security groups are stateful and more granular.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Opening all ports (0-65535) from the EC2 subnet CIDR is far too permissive. Only port 5439 is needed for Redshift connections. This violates the principle of least privilege by exposing all ports on the cluster.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -379,10 +385,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why B is correct: When a managed policy grants broader permissions than needed (AmazonS3ReadOnlyAccess allows reads on ALL S3 buckets), you should create a custom IAM policy scoped to the exact resources. This policy restricts s3:GetObject to arn:aws:s3:::data-lake/raw/* and dynamodb:PutItem to the specific DynamoDB table ARN, following the principle of least privilege.
-- Why A is wrong: Accepting broader permissions violates least privilege. The managed policy grants read access to every S3 bucket in the account, not just the required prefix.
-- Why C is wrong: AdministratorAccess grants unrestricted access to all AWS services and resources. This is the most permissive policy possible and should never be used for workload roles.
-- Why D is wrong: S3 bucket policies can control access to S3 objects, but the Glue job also requires DynamoDB write access, which cannot be granted through an S3 bucket policy. A custom IAM policy on the role is the correct approach to scope access across multiple services.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why B is correct</span><span class="exp-text">When a managed policy grants broader permissions than needed (AmazonS3ReadOnlyAccess allows reads on ALL S3 buckets), you should create a custom IAM policy scoped to the exact resources. This policy restricts s3:GetObject to arn:aws:s3:::data-lake/raw/* and dynamodb:PutItem to the specific DynamoDB table ARN, following the principle of least privilege.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Accepting broader permissions violates least privilege. The managed policy grants read access to every S3 bucket in the account, not just the required prefix.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">AdministratorAccess grants unrestricted access to all AWS services and resources. This is the most permissive policy possible and should never be used for workload roles.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">S3 bucket policies can control access to S3 objects, but the Glue job also requires DynamoDB write access, which cannot be granted through an S3 bucket policy. A custom IAM policy on the role is the correct approach to scope access across multiple services.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -396,10 +402,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: SSE-KMS integrates with AWS CloudTrail to log every use of a KMS key (Encrypt, Decrypt, GenerateDataKey), providing a full audit trail of who accessed the encryption key and when. This is critical for compliance with financial data regulations.
-- Why B is wrong: SSE-S3 uses Amazon S3-managed keys. AWS manages the keys entirely and does not log individual encryption or decryption events to CloudWatch or CloudTrail at the per-object key level, so there is no audit trail of key usage.
-- Why C is wrong: Storing plaintext encryption keys in application configuration is a serious security anti-pattern that exposes keys to unauthorized access. Keys should be managed through AWS KMS or another secure key management system.
-- Why D is wrong: With SSE-C, the customer provides the encryption key with each request. AWS does not retain or log the customer-provided key material, so CloudTrail cannot track key usage. The customer bears full responsibility for key management and auditing.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">SSE-KMS integrates with AWS CloudTrail to log every use of a KMS key (Encrypt, Decrypt, GenerateDataKey), providing a full audit trail of who accessed the encryption key and when. This is critical for compliance with financial data regulations.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">SSE-S3 uses Amazon S3-managed keys. AWS manages the keys entirely and does not log individual encryption or decryption events to CloudWatch or CloudTrail at the per-object key level, so there is no audit trail of key usage.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Storing plaintext encryption keys in application configuration is a serious security anti-pattern that exposes keys to unauthorized access. Keys should be managed through AWS KMS or another secure key management system.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">With SSE-C, the customer provides the encryption key with each request. AWS does not retain or log the customer-provided key material, so CloudTrail cannot track key usage. The customer bears full responsibility for key management and auditing.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -413,10 +419,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why B is correct: AWS CloudTrail records all API calls made in an AWS account, including DeleteBucket. Each event log entry includes the IAM principal (userIdentity), source IP address, timestamp, and request parameters, making it the definitive source for investigating who performed a specific API action.
-- Why A is wrong: Amazon CloudWatch Metrics tracks performance metrics such as CPU utilization, network throughput, and request counts. It does not capture API-level actions or the identity of who performed them.
-- Why C is wrong: S3 server access logs record object-level HTTP requests (GET, PUT) made to a bucket, but DeleteBucket is a management-plane API call. Server access logs do not capture management operations with IAM principal details the way CloudTrail does.
-- Why D is wrong: AWS Config records resource configuration state changes over time (e.g., 'bucket existed, then was deleted'), but it does not capture who made the API call, the source IP, or the full request details. CloudTrail provides the API-level audit trail.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why B is correct</span><span class="exp-text">AWS CloudTrail records all API calls made in an AWS account, including DeleteBucket. Each event log entry includes the IAM principal (userIdentity), source IP address, timestamp, and request parameters, making it the definitive source for investigating who performed a specific API action.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Amazon CloudWatch Metrics tracks performance metrics such as CPU utilization, network throughput, and request counts. It does not capture API-level actions or the identity of who performed them.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">S3 server access logs record object-level HTTP requests (GET, PUT) made to a bucket, but DeleteBucket is a management-plane API call. Server access logs do not capture management operations with IAM principal details the way CloudTrail does.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">AWS Config records resource configuration state changes over time (e.g., 'bucket existed, then was deleted'), but it does not capture who made the API call, the source IP, or the full request details. CloudTrail provides the API-level audit trail.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -430,10 +436,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why A is correct: Amazon Redshift data sharing allows you to share live data across Redshift clusters and AWS accounts without copying or moving data. The producer creates a datashare, adds schemas and tables, and grants usage to the consumer's Redshift namespace. This provides real-time read access with zero data duplication and minimal operational overhead.
-- Why B is wrong: Running a nightly AWS Glue ETL job introduces data duplication, additional storage costs, pipeline maintenance burden, and data staleness — the consumer's data could be up to 24 hours old.
-- Why C is wrong: Redshift Spectrum queries data stored in Amazon S3, not data in another Redshift cluster's internal tables. You cannot use Spectrum to directly query another cluster's managed storage.
-- Why D is wrong: Exporting to S3 requires building and maintaining an export pipeline, creates data duplication, and introduces latency. Redshift data sharing is the purpose-built, zero-copy solution for cross-account Redshift data access.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why A is correct</span><span class="exp-text">Amazon Redshift data sharing allows you to share live data across Redshift clusters and AWS accounts without copying or moving data. The producer creates a datashare, adds schemas and tables, and grants usage to the consumer's Redshift namespace. This provides real-time read access with zero data duplication and minimal operational overhead.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Running a nightly AWS Glue ETL job introduces data duplication, additional storage costs, pipeline maintenance burden, and data staleness — the consumer's data could be up to 24 hours old.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Redshift Spectrum queries data stored in Amazon S3, not data in another Redshift cluster's internal tables. You cannot use Spectrum to directly query another cluster's managed storage.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Exporting to S3 requires building and maintaining an export pipeline, creates data duplication, and introduces latency. Redshift data sharing is the purpose-built, zero-copy solution for cross-account Redshift data access.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -447,10 +453,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Creating an IAM group with the required S3 and Athena policies attached, then adding/removing users from the group, is the most efficient approach. When a new analyst joins, you simply add them to the group and they inherit all permissions. When someone leaves, removing them from the group revokes access instantly. This avoids managing individual inline policies for each user.
-- Why A is wrong: Attaching identical policies to each IAM user individually creates significant management overhead. Every policy change must be replicated across all 15 users, and onboarding/offboarding requires manually adding or removing multiple policies per user.
-- Why B is wrong: S3 bucket policies can grant access but do not address Athena permissions, and managing access for 15+ users directly in bucket policies becomes unwieldy. Bucket policies are better suited for cross-account access or public/service-level rules, not per-user team management.
-- Why C is wrong: Creating a single IAM role and sharing credentials violates security best practices. IAM roles are assumed temporarily by trusted entities — they are not designed for permanent shared access by multiple human users. Each user should have their own IAM identity for auditability.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Creating an IAM group with the required S3 and Athena policies attached, then adding/removing users from the group, is the most efficient approach. When a new analyst joins, you simply add them to the group and they inherit all permissions. When someone leaves, removing them from the group revokes access instantly. This avoids managing individual inline policies for each user.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Attaching identical policies to each IAM user individually creates significant management overhead. Every policy change must be replicated across all 15 users, and onboarding/offboarding requires manually adding or removing multiple policies per user.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">S3 bucket policies can grant access but do not address Athena permissions, and managing access for 15+ users directly in bucket policies becomes unwieldy. Bucket policies are better suited for cross-account access or public/service-level rules, not per-user team management.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Creating a single IAM role and sharing credentials violates security best practices. IAM roles are assumed temporarily by trusted entities — they are not designed for permanent shared access by multiple human users. Each user should have their own IAM identity for auditability.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -464,10 +470,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Amazon Athena is serverless—there is no infrastructure to provision or manage. By defining partitioned external tables in the AWS Glue Data Catalog (e.g., partitioned by date), Athena scans only the relevant S3 prefixes, which dramatically reduces the amount of data scanned and therefore cost (Athena charges per TB scanned). This combination delivers the lowest operational overhead and cost for ad-hoc SQL queries on S3 data.
-- Why A is wrong: Loading data into Amazon Redshift requires provisioning and managing a cluster (or Redshift Serverless), which adds significant operational overhead compared to Athena for ad-hoc queries. Redshift is better suited for repeated, complex analytical workloads rather than occasional ad-hoc exploration.
-- Why C is wrong: Amazon EMR requires launching and managing a cluster, selecting instance types, and configuring Hive or Spark. This adds operational overhead that the scenario explicitly wants to avoid.
-- Why D is wrong: Amazon OpenSearch Service requires provisioning a domain, indexing all the data, and managing the cluster. It is designed for full-text search and log analytics, not ad-hoc SQL queries over CSV files in S3.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Amazon Athena is serverless—there is no infrastructure to provision or manage. By defining partitioned external tables in the AWS Glue Data Catalog (e.g., partitioned by date), Athena scans only the relevant S3 prefixes, which dramatically reduces the amount of data scanned and therefore cost (Athena charges per TB scanned). This combination delivers the lowest operational overhead and cost for ad-hoc SQL queries on S3 data.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Loading data into Amazon Redshift requires provisioning and managing a cluster (or Redshift Serverless), which adds significant operational overhead compared to Athena for ad-hoc queries. Redshift is better suited for repeated, complex analytical workloads rather than occasional ad-hoc exploration.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Amazon EMR requires launching and managing a cluster, selecting instance types, and configuring Hive or Spark. This adds operational overhead that the scenario explicitly wants to avoid.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Amazon OpenSearch Service requires provisioning a domain, indexing all the data, and managing the cluster. It is designed for full-text search and log analytics, not ad-hoc SQL queries over CSV files in S3.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -481,10 +487,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: To share KMS-encrypted S3 objects cross-account, you must grant the external account's IAM principal kms:Decrypt (and optionally kms:DescribeKey) permission in the KMS key policy, AND allow cross-account access in the S3 bucket policy. Both permissions are required — KMS key policy for decryption and bucket policy for object access.
-- Why A is wrong: KMS customer-managed keys DO support cross-account access via key policies. Re-encrypting with SSE-S3 removes the ability to centrally manage and audit key usage through KMS.
-- Why C is wrong: Creating a new key and re-encrypting all objects is unnecessary operational overhead. KMS key policies natively support granting cross-account principals access to existing keys.
-- Why D is wrong: S3 Object Lambda is designed for transforming data on retrieval (e.g., redacting PII), not for handling cross-account KMS decryption. The issue is missing permissions, not a need for data transformation.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">To share KMS-encrypted S3 objects cross-account, you must grant the external account's IAM principal kms:Decrypt (and optionally kms:DescribeKey) permission in the KMS key policy, AND allow cross-account access in the S3 bucket policy. Both permissions are required — KMS key policy for decryption and bucket policy for object access.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">KMS customer-managed keys DO support cross-account access via key policies. Re-encrypting with SSE-S3 removes the ability to centrally manage and audit key usage through KMS.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Creating a new key and re-encrypting all objects is unnecessary operational overhead. KMS key policies natively support granting cross-account principals access to existing keys.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">S3 Object Lambda is designed for transforming data on retrieval (e.g., redacting PII), not for handling cross-account KMS decryption. The issue is missing permissions, not a need for data transformation.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -499,12 +505,12 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Amazon EventBridge can receive S3 object-creation events (when enabled on the bucket) and route them to multiple targets using separate rules, making it ideal for fan-out scenarios. Configuring separate EventBridge rules for each target (Glue job and Lambda) allows independent filtering, retry logic, and error handling per target.
-- Why A is correct: EventBridge natively supports S3 event notifications and can route a single event to multiple targets via separate rules, which is the recommended approach for fan-out.
-- Why B is wrong: S3 Event Notifications can only send each event type to a single destination per prefix/suffix combination. To fan out to both Glue and Lambda, you would need an intermediary like SNS or EventBridge.
-- Why C is wrong: While SNS fan-out with S3 Event Notifications is a valid pattern, EventBridge provides richer filtering, built-in retry policies, and direct integration with Glue jobs as targets — making it the more operationally efficient choice for this scenario.
-- Why D is correct: Separate EventBridge rules for each target ensure independent event processing, retry configuration, and dead-letter queue assignment per target.
-- Why E is wrong: A single EventBridge rule with multiple targets is technically possible (up to 5 targets per rule), and each target does get independent retry/DLQ configuration. However, separate rules per target is the AWS best practice because it provides independent rule-level monitoring (each rule has its own CloudWatch metrics for invocations and failures), independent enable/disable control, and clearer operational separation. With a single rule, you cannot disable or modify one target's routing without affecting the other.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Amazon EventBridge can receive S3 object-creation events (when enabled on the bucket) and route them to multiple targets using separate rules, making it ideal for fan-out scenarios. Configuring separate EventBridge rules for each target (Glue job and Lambda) allows independent filtering, retry logic, and error handling per target.</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Why A is correct</span><span class="exp-text">EventBridge natively supports S3 event notifications and can route a single event to multiple targets via separate rules, which is the recommended approach for fan-out.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">S3 Event Notifications can only send each event type to a single destination per prefix/suffix combination. To fan out to both Glue and Lambda, you would need an intermediary like SNS or EventBridge.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">While SNS fan-out with S3 Event Notifications is a valid pattern, EventBridge provides richer filtering, built-in retry policies, and direct integration with Glue jobs as targets — making it the more operationally efficient choice for this scenario.</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Why D is correct</span><span class="exp-text">Separate EventBridge rules for each target ensure independent event processing, retry configuration, and dead-letter queue assignment per target.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why E is wrong</span><span class="exp-text">A single EventBridge rule with multiple targets is technically possible (up to 5 targets per rule), and each target does get independent retry/DLQ configuration. However, separate rules per target is the AWS best practice because it provides independent rule-level monitoring (each rule has its own CloudWatch metrics for invocations and failures), independent enable/disable control, and clearer operational separation. With a single rule, you cannot disable or modify one target's routing without affecting the other.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -518,10 +524,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why B is correct: Lambda can be configured as an event source for Kinesis Data Streams. Lambda receives batches of records, performs the DynamoDB lookup for enrichment, and writes the results to S3. This is serverless, scales automatically with shard count, and adds minimal latency — ideal for near-real-time enrichment at this throughput level.
-- Why A is wrong: Firehose with a nightly Glue job delays enrichment by hours. The scenario implies near-real-time enrichment is needed (enrich 'before writing to S3'), so a batch approach does not meet the latency requirement.
-- Why C is wrong: Running EC2 instances with KCL adds significant operational overhead (patching, scaling policies, instance management). Polling DynamoDB per record individually also risks throttling and is inefficient compared to Lambda's batch processing model.
-- Why D is wrong: Writing to Redshift instead of S3 changes the target data store, which does not match the requirement. ECS also adds container management overhead that is unnecessary for a straightforward enrichment task at this scale.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why B is correct</span><span class="exp-text">Lambda can be configured as an event source for Kinesis Data Streams. Lambda receives batches of records, performs the DynamoDB lookup for enrichment, and writes the results to S3. This is serverless, scales automatically with shard count, and adds minimal latency — ideal for near-real-time enrichment at this throughput level.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Firehose with a nightly Glue job delays enrichment by hours. The scenario implies near-real-time enrichment is needed (enrich 'before writing to S3'), so a batch approach does not meet the latency requirement.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Running EC2 instances with KCL adds significant operational overhead (patching, scaling policies, instance management). Polling DynamoDB per record individually also risks throttling and is inefficient compared to Lambda's batch processing model.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Writing to Redshift instead of S3 changes the target data store, which does not match the requirement. ECS also adds container management overhead that is unnecessary for a straightforward enrichment task at this scale.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -535,10 +541,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: SageMaker Data Wrangler provides an end-to-end, low-code solution to import data from multiple sources (S3, Redshift, Athena, Snowflake, Databricks), apply over 300 built-in transforms (including outlier removal and categorical encoding), and generate Data Insights and Quality Reports—all from a visual interface with minimal coding.
-- Why A is wrong: AWS Glue ETL requires writing PySpark or Python shell scripts for transformations and does not natively generate data quality reports in the same visual, integrated manner.
-- Why B is wrong: EMR with Jupyter requires significant manual coding in pandas or PySpark, and the team specifically wants minimal coding.
-- Why D is wrong: Athena is a query engine for analytics; it lacks built-in data transformation features like outlier removal, categorical encoding, or quality reporting.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">SageMaker Data Wrangler provides an end-to-end, low-code solution to import data from multiple sources (S3, Redshift, Athena, Snowflake, Databricks), apply over 300 built-in transforms (including outlier removal and categorical encoding), and generate Data Insights and Quality Reports—all from a visual interface with minimal coding.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">AWS Glue ETL requires writing PySpark or Python shell scripts for transformations and does not natively generate data quality reports in the same visual, integrated manner.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">EMR with Jupyter requires significant manual coding in pandas or PySpark, and the team specifically wants minimal coding.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Athena is a query engine for analytics; it lacks built-in data transformation features like outlier removal, categorical encoding, or quality reporting.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -552,10 +558,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct (A): Amazon CloudWatch receives Glue job state-change events automatically. Creating a CloudWatch alarm on the glue.driver.aggregate.numFailedTasks metric, or using an EventBridge rule on Glue job state changes routed to an SNS topic, enables near-real-time alerting when a job fails. However, the most direct approach is a CloudWatch alarm on the Glue job's built-in failure metrics, which triggers an SNS notification to the team.
-- Why B is wrong: AWS Config tracks resource configuration changes (e.g., whether a Glue job's settings changed), not runtime execution outcomes like job success or failure. Config cannot detect that a specific job run failed.
-- Why C is wrong: CloudTrail logs API calls (e.g., StartJobRun, CreateJob) but does not track the runtime status or outcome of a Glue job execution. A job can be started successfully (logged by CloudTrail) and still fail during processing.
-- Why D is wrong: Trusted Advisor provides account-level best-practice checks around cost optimization, security, fault tolerance, and service limits. It does not monitor individual job executions or provide failure alerting for ETL pipelines.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct (A)</span><span class="exp-text">Amazon CloudWatch receives Glue job state-change events automatically. Creating a CloudWatch alarm on the glue.driver.aggregate.numFailedTasks metric, or using an EventBridge rule on Glue job state changes routed to an SNS topic, enables near-real-time alerting when a job fails. However, the most direct approach is a CloudWatch alarm on the Glue job's built-in failure metrics, which triggers an SNS notification to the team.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">AWS Config tracks resource configuration changes (e.g., whether a Glue job's settings changed), not runtime execution outcomes like job success or failure. Config cannot detect that a specific job run failed.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">CloudTrail logs API calls (e.g., StartJobRun, CreateJob) but does not track the runtime status or outcome of a Glue job execution. A job can be started successfully (logged by CloudTrail) and still fail during processing.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Trusted Advisor provides account-level best-practice checks around cost optimization, security, fault tolerance, and service limits. It does not monitor individual job executions or provide failure alerting for ETL pipelines.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -569,10 +575,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct (B): AWS DMS with full load plus CDC first copies the entire database (full load), then continuously replicates ongoing changes (CDC) from the source to the target. This allows the application to keep running on the source database during migration. When the target is caught up, you perform a brief cutover with minimal downtime — well under 1 hour for most workloads.
-- Why A is wrong: Full load only copies data at a point in time but does not capture changes made during the migration. For a 2 TB database, the full load could take hours, during which new transactions would be lost, requiring extended downtime.
-- Why C is wrong: Exporting to CSV and reloading is a manual, time-consuming process that does not handle ongoing changes. It would require the application to be offline for the entire export-upload-load cycle, resulting in significant downtime.
-- Why D is wrong: AWS Backup does not support backing up on-premises databases. It is designed for AWS-native resources such as RDS instances, EBS volumes, and DynamoDB tables.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct (B)</span><span class="exp-text">AWS DMS with full load plus CDC first copies the entire database (full load), then continuously replicates ongoing changes (CDC) from the source to the target. This allows the application to keep running on the source database during migration. When the target is caught up, you perform a brief cutover with minimal downtime — well under 1 hour for most workloads.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Full load only copies data at a point in time but does not capture changes made during the migration. For a 2 TB database, the full load could take hours, during which new transactions would be lost, requiring extended downtime.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Exporting to CSV and reloading is a manual, time-consuming process that does not handle ongoing changes. It would require the application to be offline for the entire export-upload-load cycle, resulting in significant downtime.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">AWS Backup does not support backing up on-premises databases. It is designed for AWS-native resources such as RDS instances, EBS volumes, and DynamoDB tables.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -586,10 +592,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why C is correct: AWS PrivateLink enables private connectivity to AWS services through interface VPC endpoints. For AWS Glue, an interface VPC endpoint (powered by PrivateLink) allows Glue jobs to reach the Glue API without traversing the internet. For Amazon S3, a gateway VPC endpoint routes S3 traffic privately through the AWS network at no additional cost. Together, these keep all ETL traffic off the public internet.
-- Why A is wrong: A NAT gateway routes traffic out through the internet (via an internet gateway), which violates the requirement to keep traffic off the public internet. It also adds NAT gateway data processing charges.
-- Why B is wrong: You cannot create a VPC peering connection to AWS-managed service VPCs. VPC peering connects two customer-owned VPCs, not a customer VPC to an internal AWS service network.
-- Why D is wrong: Site-to-Site VPN is designed for connecting on-premises networks to AWS over an encrypted tunnel. It is not used for private connectivity between a customer VPC and AWS services within the same region.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why C is correct</span><span class="exp-text">AWS PrivateLink enables private connectivity to AWS services through interface VPC endpoints. For AWS Glue, an interface VPC endpoint (powered by PrivateLink) allows Glue jobs to reach the Glue API without traversing the internet. For Amazon S3, a gateway VPC endpoint routes S3 traffic privately through the AWS network at no additional cost. Together, these keep all ETL traffic off the public internet.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">A NAT gateway routes traffic out through the internet (via an internet gateway), which violates the requirement to keep traffic off the public internet. It also adds NAT gateway data processing charges.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">You cannot create a VPC peering connection to AWS-managed service VPCs. VPC peering connects two customer-owned VPCs, not a customer VPC to an internal AWS service network.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Site-to-Site VPN is designed for connecting on-premises networks to AWS over an encrypted tunnel. It is not used for private connectivity between a customer VPC and AWS services within the same region.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -603,10 +609,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct (C): Amazon EventBridge is the best fit here because it natively integrates with SaaS partners and AWS services, can receive events via rules from multiple sources, and route them to different targets (Lambda, Step Functions, SNS) based on event content. This decouples the SaaS applications from downstream processing and lets the team add new event consumers without modifying producers.
-- Why A is wrong: Amazon SNS with SQS provides pub/sub messaging but lacks native SaaS partner integrations. The team would need to build custom webhook receivers and manage message filtering manually, which increases operational overhead.
-- Why B is wrong: Amazon Kinesis Data Streams is designed for high-throughput, ordered streaming data ingestion (e.g., clickstreams, IoT). It requires custom producers/consumers and does not have built-in SaaS partner event integrations or content-based routing rules.
-- Why D is wrong: AWS Lambda with scheduled polling would require writing and maintaining custom code to poll each SaaS API on a schedule. This introduces latency (not real-time), increases costs from unnecessary invocations when no events exist, and creates tight coupling to each SaaS provider's API.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct (C)</span><span class="exp-text">Amazon EventBridge is the best fit here because it natively integrates with SaaS partners and AWS services, can receive events via rules from multiple sources, and route them to different targets (Lambda, Step Functions, SNS) based on event content. This decouples the SaaS applications from downstream processing and lets the team add new event consumers without modifying producers.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Amazon SNS with SQS provides pub/sub messaging but lacks native SaaS partner integrations. The team would need to build custom webhook receivers and manage message filtering manually, which increases operational overhead.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Amazon Kinesis Data Streams is designed for high-throughput, ordered streaming data ingestion (e.g., clickstreams, IoT). It requires custom producers/consumers and does not have built-in SaaS partner event integrations or content-based routing rules.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">AWS Lambda with scheduled polling would require writing and maintaining custom code to poll each SaaS API on a schedule. This introduces latency (not real-time), increases costs from unnecessary invocations when no events exist, and creates tight coupling to each SaaS provider's API.</span></div></div>
 </details>
 </div>
 
